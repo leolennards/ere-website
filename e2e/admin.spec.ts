@@ -14,6 +14,19 @@ test("protected pages redirect and wrong passwords are rejected", async ({ page 
   await expect(page.locator("form").getByRole("alert")).toContainText("not correct");
 });
 
+test("signed-out requests never receive admin pages or data", async ({ request }) => {
+  for (const path of ["/admin", "/admin/enquiries", "/admin/users", "/admin/settings"]) {
+    const res = await request.get(path, { maxRedirects: 0 });
+    expect(res.status(), path).toBe(307);
+    expect(res.headers().location, path).toMatch(/\/admin\/login$/);
+  }
+  expect((await request.get("/api/admin/enquiries/export")).status()).toBe(401);
+  const upload = await request.post("/api/admin/properties/00000000-0000-0000-0000-000000000000/images", {
+    headers: { Origin: "https://attacker.example" },
+  });
+  expect(upload.status()).toBe(403);
+});
+
 test("owner creates, illustrates and publishes a listing, then handles its enquiry", async ({ page, browser }) => {
   const title = `E2E listing ${Date.now()}`;
   await signIn(page);

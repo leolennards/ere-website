@@ -26,8 +26,8 @@ E2E_BASE_URL=http://localhost:3001 E2E_ADMIN_EMAIL=… E2E_ADMIN_PASSWORD=… np
 | `npm run lint` | ✅ 0 errors, 0 warnings |
 | `npm test` | ✅ 43/43 passed |
 | `next build` | ✅ success, 0 warnings. Public pages are Partial Prerender; admin is dynamic. |
-| `npm run test:e2e` against the **production build** | ✅ 15/15 passed |
-| `npm run test:e2e` against `next dev` | ✅ 15/15 passed |
+| `npm run test:e2e` against the **production build** | ✅ 17/17 passed |
+| `npm run test:e2e` against `next dev` | ✅ 17/17 passed |
 | axe-core (5 key pages) | ✅ 0 serious/critical violations (two earlier findings fixed: step-number contrast, WhatsApp button contrast) |
 | Lighthouse (mobile, simulated slow 4G, local prod build) | Home: Perf 83 · A11y 100 · Best practices 100 · SEO 100. Buy: Perf 83 · 100 · 100 · 100. Property (demo): Perf 94 · A11y 100 · Best practices 100 · SEO 69 (*expected*: demo listings are `noindex`). CLS 0 on all. Lab LCP 2.8–4.0 s (see note). |
 | Security headers | ✅ CSP, HSTS, nosniff, frame DENY, referrer and permissions policies present |

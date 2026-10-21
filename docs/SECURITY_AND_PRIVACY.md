@@ -16,6 +16,7 @@ No system is "completely secure". This document lists what is implemented, what 
 | Spam / abuse of forms | Honeypot, minimum fill time, per-IP rate limits (5 per 10 min per form, 30/day), server validation |
 | Data leakage | Public DTOs exclude private address/coordinates; drafts are invisible (tested); admin pages `noindex` + `no-store`; notification emails exclude visitor contact details; logs omit personal data and passwords |
 | Spreadsheet formula injection | CSV export prefixes cells starting with `= + - @` |
+| Probing the admin while signed out | `src/proxy.ts` redirects any `/admin/*` request without a session cookie to the login page (307) before a page is rendered, so no admin code or markup is sent. Every page, server action and API route still validates the session and role itself; the proxy check is only the first gate (tested in `e2e/admin.spec.ts`) |
 | Clickjacking | `frame-ancestors 'none'` + `X-Frame-Options: DENY` |
 
 Headers (from `next.config.ts`): CSP, HSTS (2 years), `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy`. `X-Powered-By` is disabled.

@@ -18,7 +18,7 @@ All features in docs/REQUIREMENTS.md marked ✅: public site (home, buy, rent, p
 - Only Chromium is covered by automated tests.
 
 ## Latest verification
-typecheck ✅ · lint ✅ (0 problems) · unit/integration 43/43 ✅ · production build ✅ (0 warnings) · e2e 15/15 ✅ on the production build · axe 0 serious/critical · Lighthouse a11y/best practices 100 · `npm audit --omit=dev` 0. Details: docs/TEST_PLAN.md.
+typecheck ✅ · lint ✅ (0 problems) · unit/integration 43/43 ✅ · production build ✅ (0 warnings) · e2e 17/17 ✅ on the production build · axe 0 serious/critical · Lighthouse a11y/best practices 100 · `npm audit --omit=dev` 0. Details: docs/TEST_PLAN.md.
 
 ## Local environment notes
 - The local database (`.data/pglite`) contains **6 demo listings** and a test owner `owner@ere.test`. Remove both before using this database for anything real (`npm run db:clear-demo`; delete the user).

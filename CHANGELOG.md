@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.1 — 2026-10-21
+
+- Security: signed-out requests to `/admin/*` are redirected to the login page in the proxy, before any admin page is rendered; new e2e test covers admin pages, the CSV export and cross-origin uploads.
+- React 19.3.1.
+
 ## 0.1.0 — 2026-10-18 (unreleased, local)
 
 ### Phase 1: Audit
