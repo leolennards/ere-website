@@ -57,7 +57,7 @@ export default async function Dashboard({ searchParams }: PageProps<"/admin">) {
         <Stat label="Follow-ups due" value={e.followUpsDue} href="/admin/enquiries" tone="red" />
       </section>
 
-      <div className="mt-8 grid gap-6 xl:grid-cols-3">
+      <div className="mt-8 grid items-start gap-6 xl:grid-cols-3">
         <section className="card p-6 xl:col-span-2" aria-labelledby="recent-enq">
           <div className="flex items-center justify-between">
             <h2 id="recent-enq" className="heading text-2xl">Latest enquiries</h2>

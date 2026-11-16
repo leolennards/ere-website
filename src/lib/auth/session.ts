@@ -3,6 +3,7 @@ import { createHash, randomBytes } from "node:crypto";
 import { and, eq, gt, lt } from "drizzle-orm";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { connection } from "next/server";
 import { cache } from "react";
 import { getDb } from "@/lib/db";
 import { admins, sessions, type AdminRole } from "@/lib/db/schema";
@@ -41,6 +42,8 @@ export async function destroySession() {
 
 /** Resolves the signed-in administrator from the session cookie (deduplicated per request). */
 export const getCurrentAdmin = cache(async (): Promise<CurrentAdmin | null> => {
+  // Sessions are checked against the current time, so this never runs in a prerender or prefetch.
+  await connection();
   const token = (await cookies()).get(SESSION_COOKIE)?.value;
   if (!token || token.length > 100) return null;
   const [row] = await getDb()

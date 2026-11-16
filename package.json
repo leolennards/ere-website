@@ -23,9 +23,9 @@
   "dependencies": {
     "@electric-sql/pglite": "^0.5.10",
     "@node-rs/argon2": "^2.2.2",
-    "@vercel/blob": "^2.8.2",
+    "@vercel/blob": "^2.9.0",
     "drizzle-orm": "^0.45.4",
-    "next": "16.4.2",
+    "next": "^16.4.6",
     "pg": "^8.23.1",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
@@ -44,7 +44,7 @@
     "@types/react-dom": "^19",
     "drizzle-kit": "^0.31.11",
     "eslint": "^9",
-    "eslint-config-next": "16.4.2",
+    "eslint-config-next": "^16.4.6",
     "tailwindcss": "^4",
     "tsx": "^4.23.15",
     "typescript": "^5",
@@ -52,5 +52,10 @@
   },
   "engines": {
     "node": ">=22"
+  },
+  "overrides": {
+    "@vercel/cli-config": {
+      "zod": "$zod"
+    }
   }
 }

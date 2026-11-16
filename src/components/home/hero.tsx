@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Suspense } from "react";
 import { getPublicSuburbs } from "@/lib/data/properties";
 import { getDb } from "@/lib/db";
 import { getPublicStatuses } from "@/lib/server/site";
@@ -9,15 +8,14 @@ import { ArrowRightIcon } from "../icons";
 import { SearchPanel } from "../search/search-panel";
 import { unstable_rethrow } from "next/navigation";
 
-async function SearchWithSuburbs() {
-  let suburbs: string[] = [];
+async function loadSuburbs() {
   try {
-    suburbs = await getPublicSuburbs(getDb(), await getPublicStatuses());
+    return await getPublicSuburbs(getDb(), await getPublicStatuses());
   } catch (err) {
     unstable_rethrow(err);
     // Search still works with free text if suggestions can't load.
+    return [];
   }
-  return <SearchPanel suburbs={suburbs} />;
 }
 
 export function Hero() {
@@ -35,12 +33,12 @@ export function Hero() {
       <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgb(21_17_14/0.55)_0%,rgb(21_17_14/0.15)_30%,rgb(21_17_14/0.35)_55%,rgb(21_17_14/0.92)_100%)]" />
       <div aria-hidden="true" className="absolute inset-y-0 left-0 -z-10 w-full bg-[linear-gradient(90deg,rgb(21_17_14/0.7)_0%,transparent_65%)]" />
 
-      <div className="container-site flex min-h-[44rem] flex-col justify-end pb-10 pt-32 sm:min-h-[48rem] lg:min-h-[max(52rem,100svh)] lg:pb-14">
+      <div className="container-site flex min-h-[44rem] flex-col justify-end pb-10 pt-32 sm:min-h-[48rem] lg:min-h-[max(46rem,100svh)] lg:pb-14">
         <div className="hero-stagger max-w-4xl">
           <p className="eyebrow" style={{ "--i": 0 } as React.CSSProperties}>
             Parow · Cape Town
           </p>
-          <h1 id="hero-title" className="display mt-5 text-[3.6rem] sm:text-[6rem] lg:text-[8.5rem]" style={{ "--i": 1 } as React.CSSProperties}>
+          <h1 id="hero-title" className="display mt-5 text-[3.6rem] sm:text-[6rem] lg:text-[clamp(4.75rem,11.5svh,8.5rem)]" style={{ "--i": 1 } as React.CSSProperties}>
             <span className="block">Find your place.</span>
             <span className="block text-ere-red">Elevate</span>
             <span className="block">your future.</span>
@@ -60,10 +58,8 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="mt-12 max-w-5xl [animation:lift_0.9s_var(--ease-out-expo)_both] [animation-delay:300ms]">
-          <Suspense fallback={<SearchPanel suburbs={[]} />}>
-            <SearchWithSuburbs />
-          </Suspense>
+        <div className="mt-10 max-w-5xl [animation:lift_0.9s_var(--ease-out-expo)_both] [animation-delay:300ms]">
+          <SearchPanel suburbs={loadSuburbs()} />
         </div>
       </div>
     </section>

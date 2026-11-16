@@ -1,12 +1,20 @@
 "use client";
 
-import { useId, useState } from "react";
+import { Suspense, use, useId, useState } from "react";
 import { formatZarShort } from "@/lib/format";
 import { PROPERTY_TYPE_LABELS, RENT_PRICE_STEPS, SALE_PRICE_STEPS } from "@/lib/listing-options";
 import { SearchIcon } from "../icons";
 
-/** Homepage search. A plain GET form, so it also works without JavaScript. */
-export function SearchPanel({ suburbs }: { suburbs: string[] }) {
+function SuburbOptions({ suburbs }: { suburbs: Promise<string[]> }) {
+  return use(suburbs).map((s) => <option key={s} value={s} />);
+}
+
+/**
+ * Homepage search. A plain GET form, so it also works without JavaScript.
+ * Only the suburb suggestions wait for data: the form itself mounts once, so
+ * anything typed while the suggestions load is kept.
+ */
+export function SearchPanel({ suburbs }: { suburbs: Promise<string[]> }) {
   const [deal, setDeal] = useState<"sale" | "rent">("sale");
   const id = useId();
   const steps = deal === "sale" ? SALE_PRICE_STEPS : RENT_PRICE_STEPS;
@@ -44,9 +52,9 @@ export function SearchPanel({ suburbs }: { suburbs: string[] }) {
           </label>
           <input id={`${id}-q`} name="q" list={`${id}-suburbs`} placeholder="Suburb or area, e.g. Parow" className="input border-transparent bg-bone" autoComplete="off" />
           <datalist id={`${id}-suburbs`}>
-            {suburbs.map((s) => (
-              <option key={s} value={s} />
-            ))}
+            <Suspense fallback={null}>
+              <SuburbOptions suburbs={suburbs} />
+            </Suspense>
           </datalist>
         </div>
         <div>

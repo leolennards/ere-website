@@ -39,7 +39,7 @@ test("a renamed listing URL permanently redirects to the current one", async ({ 
   const ref = href!.match(/ere-[a-z0-9]{6}$/)![0];
   const res = await request.get(`/properties/an-old-title-${ref}`, { maxRedirects: 0 });
   expect(res.status()).toBe(308);
-  expect(new URL(res.headers()["location"]).pathname).toBe(href);
+  expect(new URL(res.headers()["location"], "http://site.test").pathname).toBe(href);
 });
 
 test("homepage search finds matching listings and filters combine and clear", async ({ page }) => {
