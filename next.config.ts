@@ -55,6 +55,8 @@ const nextConfig: NextConfig = {
   // Preserve the old WordPress URLs.
   async redirects() {
     return [
+      // One canonical host: the bare domain forwards to www.
+      { source: "/:path*", has: [{ type: "host", value: "elevaterealestate.co.za" }], destination: "https://www.elevaterealestate.co.za/:path*", permanent: true },
       { source: "/about-us", destination: "/about", permanent: true },
       { source: "/contact-us", destination: "/contact", permanent: true },
       { source: "/listings", destination: "/buy", permanent: true },

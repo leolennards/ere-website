@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.0 — 2026-11-16
+
+- Deployed to Vercel (fra1) with Neon Postgres and Vercel Blob; domain registered on the project; bare domain redirects to `www`.
+- Homepage search keeps typed text while suburb suggestions load (the form no longer remounts).
+- Hero headline scales with viewport height so the search is visible on the first screen.
+- Session lookup opts out of prerendering/prefetching (`connection()`), fixing errors logged on Next.js 16.4.6.
+- Next.js 16.4.6, zod 4.6.7 (advisory GHSA-mrhx-c7xc-m3w5), other minor updates.
+
 ## 0.1.1 — 2026-10-21
 
 - Security: signed-out requests to `/admin/*` are redirected to the login page in the proxy, before any admin page is rendered; new e2e test covers admin pages, the CSV export and cross-origin uploads.

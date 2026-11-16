@@ -30,6 +30,21 @@ Any Node 22+ host with Postgres works too: `npm run build && npm start`. Without
 9. **Domain and HTTPS:** add `elevaterealestate.co.za` and `www` in Vercel → Domains, then update DNS at the current registrar as Vercel instructs (A record for the apex and a CNAME for `www`). HTTPS certificates are issued automatically. Keep MX records unchanged so email keeps working.
 10. **Before switching DNS:** export anything needed from the old WordPress site (enquiries, users, media) and confirm with the current host how to cancel. The old URLs are redirected (see `next.config.ts`).
 
+## Switching the domain
+
+The domain's DNS, the old WordPress site and the mailboxes are all at MWEB (cPanel). Only two records change; everything else, especially **MX, `mail` and the SPF TXT record, stays as it is** so email keeps working. Keep the MWEB package: the mailboxes live on it.
+
+In MWEB cPanel → **Zone Editor** → `elevaterealestate.co.za`:
+
+| Record | Name | Change to |
+| --- | --- | --- |
+| A | `elevaterealestate.co.za.` (the bare domain) | `216.198.79.1` |
+| CNAME | `www` | `bc23d20298760899.vercel-dns-017.com.` |
+
+If `mail`, `webmail`, `cpanel` or `ftp` are CNAMEs to the bare domain, first change them to A records with the old address (`102.65.21.17`) so they keep pointing at MWEB.
+
+Afterwards: `vercel domains verify www.elevaterealestate.co.za` (Vercel then issues the HTTPS certificates automatically). The bare domain redirects to `www` (`next.config.ts`). To roll back, restore the two old values (A `102.65.21.17`, `www` CNAME to the bare domain).
+
 ## Google Maps configuration
 
 1. Google Cloud Console → create a project → enable **Maps Embed API** (billing account required, but Embed API usage is not charged).
